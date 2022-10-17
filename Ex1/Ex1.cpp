@@ -1,11 +1,28 @@
 ﻿// Ex1.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
 
-#include <iostream>
+#pragma warning(disable:4996)
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<assert.h>
+#include<locale>
+#include<iostream>
+#include <cstdio>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+int calc(char* str) {
+	int result;
+	//do something
+	return result;
+}
+
+int main(int argc, char** argv){
+	char expression[100];
+	int result;
+	printf("请输入算术表达式：");
+	gets_s(expression);
+	result = calc(expression);
+	printf("\n所求结果为：%d", result);
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
