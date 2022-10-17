@@ -67,6 +67,43 @@ status pop(LinkList& S, ElemType1& E)	//出栈
 	return 1;
 }
 
+int setPriority(ElemType1 E)    //比较优先级
+{
+	int i;
+	switch (E)
+	{
+	case '+':
+		i = 1;
+		break;
+	case '-':
+		i = 0;
+		break;
+	case '*':
+		i = 3;
+		break;
+	case '/':
+		i = 2;
+		break;
+	case '(':
+		i = 4;
+		break;
+	case ')':
+		i = 5;
+		break;
+	case '#':
+		i = 6;
+		break;
+	default:
+		break;
+	}
+	return i;
+}
+
+char comparePriority(ElemType1 E1, ElemType1 E2)    //比较优先级
+{
+	//do something
+}
+
 int calc(char* str) {
 	int result=0;
 	//do something
