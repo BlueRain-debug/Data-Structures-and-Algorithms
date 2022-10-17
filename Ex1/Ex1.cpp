@@ -27,11 +27,24 @@ status InitStack(LinkList *S) {
 	return 1;
 }
 
+
+
 status GetTopElem(LinkList& S, ElemType1& E)    //获取栈顶元素
 {
 	if (S->next == NULL) return 0;
 	E = S->next->data;
 	return 1;
+}
+
+int GetStackLength(LinkList S)    //获取栈元素个数
+{
+	StackNode* p = S;
+	int i = 0;
+	while (p->next){
+		i++;
+		p = p->next;
+	}
+	return i;
 }
 
 status push(LinkList& S, ElemType1& E)	//进栈
