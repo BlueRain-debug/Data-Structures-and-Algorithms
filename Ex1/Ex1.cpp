@@ -5,10 +5,26 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<time.h>
 #include<assert.h>
 #include<locale>
 #include<iostream>
 #include <cstdio>
+
+typedef int status;
+typedef char ElemType;
+
+typedef struct Node{
+	ElemType data;	//数据域
+	struct Node* next;	//指针域
+}Node, * LinkList;
+
+status  InitStack(LinkList *S) {
+	*S = (Node*)malloc(sizeof(Node));
+	if (*S == NULL) exit(0);
+	(* S)->next = NULL;
+	return 1;
+}
 
 int calc(char* str) {
 	int result;
