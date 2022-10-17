@@ -12,22 +12,50 @@
 #include <cstdio>
 
 typedef int status;
-typedef char ElemType;
+typedef char ElemType1;
+typedef int ElemType2;
 
-typedef struct Node{
-	ElemType data;	//数据域
-	struct Node* next;	//指针域
-}Node, * LinkList;
+typedef struct StackNode{
+	ElemType1 data;	//数据域
+	struct StackNode* next;	//指针域
+}StackNode, * LinkList;
 
-status  InitStack(LinkList *S) {
-	*S = (Node*)malloc(sizeof(Node));
+status InitStack(LinkList *S) {
+	*S = (StackNode*)malloc(sizeof(StackNode));
 	if (*S == NULL) exit(0);
 	(* S)->next = NULL;
 	return 1;
 }
 
+status GetTopElem(LinkList& S, ElemType1& E)    //获取栈顶元素
+{
+	if (S->next == NULL) return 0;
+	E = S->next->data;
+	return 1;
+}
+
+status push(LinkList& S, ElemType1& E)	//进栈
+{
+	StackNode* p = (StackNode*)malloc(sizeof(StackNode));
+	if (p == NULL) exit(0);
+	p->data = E;
+	p->next = S->next;
+	S->next = p;
+	return 1;
+}
+
+status pop(LinkList& S, ElemType1& E)	//出栈
+{
+	if (S->next == NULL) return 0;
+	E = S->next->data;
+	StackNode* p = S->next;
+	S->next = p->next;	//修改栈顶指针
+	free(p);
+	return 1;
+}
+
 int calc(char* str) {
-	int result;
+	int result=0;
 	//do something
 	return result;
 }
@@ -35,9 +63,12 @@ int calc(char* str) {
 int main(int argc, char** argv){
 	char expression[100];
 	int result;
-	printf("请输入算术表达式：");
-	gets_s(expression);
+	if (argc < 2) {
+		printf("请输入算术表达式：");
+		gets_s(expression);
+	}
 	result = calc(expression);
+	printf("\n后缀表达式为：%d", result);
 	printf("\n所求结果为：%d", result);
 }
 
