@@ -20,16 +20,33 @@ typedef struct StackNode{
 	struct StackNode* next;	//指针域
 }StackNode, * LinkList;
 
-status InitStack(LinkList *S) {
-	*S = (StackNode*)malloc(sizeof(StackNode));
-	if (*S == NULL) exit(0);
-	(* S)->next = NULL;
+typedef struct StackNode2 {
+	ElemType2 data;	//数据域
+	struct StackNode2* next;	//指针域
+}StackNode2, * LinkList2;
+
+status InitStack(LinkList& S) {
+	S = (StackNode*)malloc(sizeof(StackNode));
+	if (S == NULL) exit(0);
+	S->next = NULL;
 	return 1;
 }
 
-
+status InitStack2(LinkList2& S) {
+	S = (StackNode2*)malloc(sizeof(StackNode2));
+	if (S == NULL) exit(0);
+	S->next = NULL;
+	return 1;
+}
 
 status GetTopElem(LinkList& S, ElemType1& E)    //获取栈顶元素
+{
+	if (S->next == NULL) return 0;
+	E = S->next->data;
+	return 1;
+}
+
+status GetTopElem2(LinkList2& S, ElemType2& E)    //获取栈顶元素
 {
 	if (S->next == NULL) return 0;
 	E = S->next->data;
@@ -41,6 +58,17 @@ int GetStackLength(LinkList S)    //获取栈元素个数
 	StackNode* p = S;
 	int i = 0;
 	while (p->next){
+		i++;
+		p = p->next;
+	}
+	return i;
+}
+
+int GetStackLength(LinkList2 S)    //获取栈元素个数
+{
+	StackNode2* p = S;
+	int i = 0;
+	while (p->next) {
 		i++;
 		p = p->next;
 	}
@@ -67,31 +95,51 @@ status pop(LinkList& S, ElemType1& E)	//出栈
 	return 1;
 }
 
+status push(LinkList2& S, ElemType2& E)	//进栈
+{
+	StackNode2* p = (StackNode2*)malloc(sizeof(StackNode2));
+	if (p == NULL) exit(0);
+	p->data = E;
+	p->next = S->next;
+	S->next = p;
+	return 1;
+}
+
+status pop(LinkList2& S, ElemType2& E)	//出栈
+{
+	if (S->next == NULL) return 0;
+	E = S->next->data;
+	StackNode2* p = S->next;
+	S->next = p->next;	//修改栈顶指针
+	free(p);
+	return 1;
+}
+
 int setPriority(ElemType1 E)    //比较优先级
 {
 	int i;
 	switch (E)
 	{
 	case '+':
-		i = 1;
+		i = 0;
 		break;
 	case '-':
 		i = 0;
 		break;
 	case '*':
-		i = 3;
+		i = 1;
 		break;
 	case '/':
-		i = 2;
+		i = 1;
 		break;
 	case '(':
-		i = 4;
+		i = 2;
 		break;
 	case ')':
-		i = 5;
+		i = 3;
 		break;
 	case '#':
-		i = 6;
+		i = 4;
 		break;
 	default:
 		break;
@@ -101,11 +149,24 @@ int setPriority(ElemType1 E)    //比较优先级
 
 char comparePriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 {
-	//do something
+	if (setPriority(E1) == 4 && setPriority(E2) == 5)return '=';
+	if (setPriority(E1) == 3 && setPriority(E2) == 2)return '0';
+	if (setPriority(E1) == 2 && setPriority(E2) == 4)return '0';
+	if (setPriority(E1) == 4 && setPriority(E2) == 3)return '0';
+	if (setPriority(E1) == 4)return '<';
+	if (setPriority(E1) == setPriority(E2)==2)return '<';
+	if (setPriority(E1) == setPriority(E2))return '>';
+	if (setPriority(E1) > setPriority(E2))return '>';
+	if (setPriority(E1) < setPriority(E2))return '<';
+	return '0';
 }
 
 int calc(char* str) {
 	int result=0;
+	LinkList optr;
+	LinkList2 opnd;
+	InitStack(optr);
+	InitStack2(opnd);
 	//do something
 	return result;
 }
