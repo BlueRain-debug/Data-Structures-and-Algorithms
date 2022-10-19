@@ -75,7 +75,7 @@ int GetStackLength2(LinkList2 S)    //获取栈元素个数
 	return i;
 }
 
-status push(LinkList& S, ElemType1& E)	//进栈
+status push(LinkList& S, ElemType1 E)	//进栈
 {
 	StackNode* p = (StackNode*)malloc(sizeof(StackNode));
 	if (p == NULL) exit(0);
@@ -95,7 +95,7 @@ status pop(LinkList& S, ElemType1& E)	//出栈
 	return 1;
 }
 
-status push2(LinkList2& S, ElemType2& E)	//进栈
+status push2(LinkList2& S, ElemType2 E)	//进栈
 {
 	StackNode2* p = (StackNode2*)malloc(sizeof(StackNode2));
 	if (p == NULL) exit(0);
@@ -138,7 +138,7 @@ int setPriority(ElemType1 E)    //比较优先级
 	case ')':
 		i = 3;
 		break;
-	case '#':
+	case '@':
 		i = 4;
 		break;
 	default:
@@ -167,6 +167,10 @@ int calc(char* str) {
 	LinkList2 opnd;
 	InitStack(optr);
 	InitStack2(opnd);
+	push(optr, '@');
+	int i = 0;
+	int j = 0;
+	char exp1[100];
 	//do something
 	return result;
 }
