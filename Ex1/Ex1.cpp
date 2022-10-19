@@ -64,7 +64,7 @@ int GetStackLength(LinkList S)    //获取栈元素个数
 	return i;
 }
 
-int GetStackLength(LinkList2 S)    //获取栈元素个数
+int GetStackLength2(LinkList2 S)    //获取栈元素个数
 {
 	StackNode2* p = S;
 	int i = 0;
@@ -95,7 +95,7 @@ status pop(LinkList& S, ElemType1& E)	//出栈
 	return 1;
 }
 
-status push(LinkList2& S, ElemType2& E)	//进栈
+status push2(LinkList2& S, ElemType2& E)	//进栈
 {
 	StackNode2* p = (StackNode2*)malloc(sizeof(StackNode2));
 	if (p == NULL) exit(0);
@@ -105,7 +105,7 @@ status push(LinkList2& S, ElemType2& E)	//进栈
 	return 1;
 }
 
-status pop(LinkList2& S, ElemType2& E)	//出栈
+status pop2(LinkList2& S, ElemType2& E)	//出栈
 {
 	if (S->next == NULL) return 0;
 	E = S->next->data;
