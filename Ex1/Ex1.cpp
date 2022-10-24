@@ -53,28 +53,6 @@ status GetTopElem2(LinkList2& S, ElemType2& E)    //获取栈顶元素
 	return 1;
 }
 
-int GetStackLength(LinkList S)    //获取栈元素个数
-{
-	StackNode* p = S;
-	int i = 0;
-	while (p->next){
-		i++;
-		p = p->next;
-	}
-	return i;
-}
-
-int GetStackLength2(LinkList2 S)    //获取栈元素个数
-{
-	StackNode2* p = S;
-	int i = 0;
-	while (p->next) {
-		i++;
-		p = p->next;
-	}
-	return i;
-}
-
 status push(LinkList& S, ElemType1 E)	//进栈
 {
 	StackNode* p = (StackNode*)malloc(sizeof(StackNode));
@@ -166,6 +144,7 @@ int setPriority(ElemType1 E)    //设置优先级
 		i = 4;
 		break;
 	default:
+		i = -1;
 		break;
 	}
 	return i;
@@ -286,13 +265,25 @@ int calc(char* str) {
 
 int main(int argc, char** argv){
 	char expression[100];
-	int result;
+	int result,n,p;
 	if (argc < 2) {
 		printf("请输入算术表达式：");
 		gets_s(expression);
 	}
+	for(n=0;n<100&&expression[n]!='\0'; n++){}
+	if (expression[0] == '-') {
+		for (p = n; p >= 0; p--) {
+			expression[p + 1] = expression[p];
+		}
+		expression[0] = '0';
+		n++;
+	}
+	if (expression[n - 1] != '=') {
+		expression[n] = '=';
+		expression[n+1] = '\0';
+	}
 	result = calc(expression);
-	printf("\n后缀表达式为：%d", result);
+	//printf("\n后缀表达式为：%d", result);
 	printf("\n所求结果为：%d", result);
 }
 
