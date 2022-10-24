@@ -13,9 +13,9 @@
 
 typedef int status;
 typedef char ElemType1;
-typedef int ElemType2;
+typedef double ElemType2;
 
-typedef struct StackNode{
+typedef struct StackNode {
 	ElemType1 data;	//数据域
 	struct StackNode* next;	//指针域
 }StackNode, * LinkList;
@@ -129,24 +129,24 @@ int setPriority(ElemType1 E)    //设置优先级
 char compPriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 {
 	int i = setPriority(E1), j = setPriority(E2);
-	if ((i == 4)&&(j == 4))return '=';
-	if ((i == 3)&&(j == 2))return '0';
-	if ((i == 2)&&(j == 4))return '0';
-	if ((i == 4)&&(j == 3))return '0';
+	if ((i == 4) && (j == 4))return '=';
+	if ((i == 3) && (j == 2))return '0';
+	if ((i == 2) && (j == 4))return '0';
+	if ((i == 4) && (j == 3))return '0';
 	if (i == 4)return '<';
 	if (j == 4)return '>';
-	if ((i == j)&&(j == 2))return '<';
+	if ((i == j) && (j == 2))return '<';
 	if (i == j)return '>';
 	if (i > j)return '>';
 	if (i < j)return '<';
 	return '0';
 }
 
-int _atoi(char* str, int leng){
+double _atoi(char* str, int leng) {
 	assert(str != NULL);
 	int i = 0;
-	int flag = 1;
-	int temp = 0;
+	double flag = 1;
+	double temp = 0;
 	for (; i < leng; i++)
 	{
 		if (str[i] == '-')
@@ -162,9 +162,9 @@ int _atoi(char* str, int leng){
 	return temp * flag;
 }
 
-ElemType2 Optr(ElemType2 a, ElemType1 optr, ElemType2 b){
+ElemType2 Optr(ElemType2 a, char optr, ElemType2 b) {
 	ElemType2 result;
-	switch (optr){
+	switch (optr) {
 	case '+':
 		result = a + b;
 		break;
@@ -183,41 +183,42 @@ ElemType2 Optr(ElemType2 a, ElemType1 optr, ElemType2 b){
 	return result;
 }
 
-int calc(char* str) {
-	int result=0;
+double calc(char* str) {
+	double result = 0;
 	LinkList optr;
 	LinkList2 opnd;
 	InitStack(optr);
 	InitStack2(opnd);
 	push(optr, '=');
-	int i = 0,j = 0;
-	bool flag=0;
+	int i = 0, j = 0;
+	bool flag = 0;
 	bool flag_a = 0;//首次输出
 	bool flag_b = 0;//记录上一步操作
-	ElemType1 r,s;
+	ElemType1 r, s;
 	ElemType2 a, b, data;
 	char t;
 	GetTopElem(optr, r);
 	char exp1[100];
-	while (str[i] != '=' || r != '='){
-		if (str[i] >= '0' && str[i] <= '9'){//操作数
+	while (str[i] != '=' || r != '=') {
+		if (str[i] >= '0' && str[i] <= '9') {//操作数
 			exp1[j] = str[i];
 			i++;
 			j++;
-			if (str[i] < '0' || str[i] > '9'){
+			if (str[i] < '0' || str[i] > '9') {
 				flag = 1;
 			}
-			if (flag == 1 && j > 0){
+			if (flag == 1 && j > 0) {
 				data = _atoi(exp1, j);
 				push2(opnd, data);
 				flag_b = 0;
 				flag = 0;
 				j = 0;
 			}
-		}else {//非操作数
+		}
+		else {//非操作数
 			GetTopElem(optr, r);
 			t = compPriority(r, str[i]);
-			switch (t){
+			switch (t) {
 			case '<':
 				push(optr, str[i]);
 				i++;
@@ -227,17 +228,17 @@ int calc(char* str) {
 				pop2(opnd, b);
 				pop2(opnd, a);
 				if (flag_a == 0) {
-					printf("%d %d %c ",a, b, s);
+					printf("%lf %lf %c ", a, b, s);
 					flag_a = 1;
 				}
 				else {
-					if(flag_b==1){
-						printf("%d %c ", a, s);
+					if (flag_b == 1) {
+						printf("%lf %c ", a, s);
 					}
 					else {
-						printf("%d %c ", b, s);
+						printf("%lf %c ", b, s);
 					}
-					
+
 				}
 				push2(opnd, Optr(a, s, b));
 				flag_b = 1;
@@ -256,15 +257,15 @@ int calc(char* str) {
 	return result;
 }
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
 	char expression[100];
-	int n,p;
-	ElemType2 result;
+	int n, p;
+	double result;
 	if (argc < 2) {
 		printf("请输入算术表达式：");
 		gets_s(expression);
 	}
-	for(n=0;n<100&&expression[n]!='\0'; n++){}
+	for (n = 0; n < 100 && expression[n] != '\0'; n++) {}
 	if (expression[0] == '-') {//负号补零
 		for (p = n; p >= 0; p--) {
 			expression[p + 1] = expression[p];
@@ -274,11 +275,11 @@ int main(int argc, char** argv){
 	}
 	if (expression[n - 1] != '=') {//末尾补充等号
 		expression[n] = '=';
-		expression[n+1] = '\0';
+		expression[n + 1] = '\0';
 	}
 	printf("\n后缀表达式为：");
 	result = calc(expression);
-	printf("\n所求结果为：%d", result);
+	printf("\n所求结果为：%lf", result);
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
