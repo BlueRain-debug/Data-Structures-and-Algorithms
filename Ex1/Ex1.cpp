@@ -192,6 +192,7 @@ int calc(char* str) {
 	push(optr, '=');
 	int i = 0,j = 0,data;
 	bool flag=0;
+	bool flag_a = 0;
 	ElemType1 r,s;
 	ElemType2 a, b;
 	char t;
@@ -223,6 +224,13 @@ int calc(char* str) {
 				pop(optr, s);
 				pop2(opnd, b);
 				pop2(opnd, a);
+				if (flag_a == 0) {
+					printf("%d %d %c ",a, b, s);
+					flag_a = 1;
+				}
+				else {
+					printf("%d %c ", b, s);
+				}
 				push2(opnd, Optr(a, s, b));
 				break;
 			case '=':
@@ -258,8 +266,8 @@ int main(int argc, char** argv){
 		expression[n] = '=';
 		expression[n+1] = '\0';
 	}
+	printf("\n后缀表达式为：");
 	result = calc(expression);
-	//printf("\n后缀表达式为：%d", result);
 	printf("\n所求结果为：%d", result);
 }
 
