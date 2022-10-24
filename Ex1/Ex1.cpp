@@ -115,6 +115,32 @@ status pop2(LinkList2& S, ElemType2& E)	//出栈
 	return 1;
 }
 
+status StackTraverse(LinkList S)    //链式栈遍历
+{
+	if (S->next == NULL) return 0;
+	StackNode* p = S->next;
+	while (p)
+	{
+		printf("%d ", p->data);
+		p = p->next;
+	}
+	printf("\n");
+	return 1;
+}
+
+status StackTraverse2(LinkList2 S)    //链式栈遍历
+{
+	if (S->next == NULL) return 0;
+	StackNode2* p = S->next;
+	while (p)
+	{
+		printf("%d ", p->data);
+		p = p->next;
+	}
+	printf("\n");
+	return 1;
+}
+
 int setPriority(ElemType1 E)    //比较优先级
 {
 	int i;
@@ -149,16 +175,37 @@ int setPriority(ElemType1 E)    //比较优先级
 
 char comparePriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 {
-	if (setPriority(E1) == 4 && setPriority(E2) == 5)return '=';
-	if (setPriority(E1) == 3 && setPriority(E2) == 2)return '0';
-	if (setPriority(E1) == 2 && setPriority(E2) == 4)return '0';
-	if (setPriority(E1) == 4 && setPriority(E2) == 3)return '0';
+	if ((setPriority(E1) == 4)&&(setPriority(E2) == 5))return '=';
+	if ((setPriority(E1) == 3)&&(setPriority(E2) == 2))return '0';
+	if ((setPriority(E1) == 2)&&(setPriority(E2) == 4))return '0';
+	if ((setPriority(E1) == 4)&&(setPriority(E2) == 3))return '0';
 	if (setPriority(E1) == 4)return '<';
-	if (setPriority(E1) == setPriority(E2)==2)return '<';
+	if ((setPriority(E1) == setPriority(E2))&&(setPriority(E2) == 2))return '<';
 	if (setPriority(E1) == setPriority(E2))return '>';
 	if (setPriority(E1) > setPriority(E2))return '>';
 	if (setPriority(E1) < setPriority(E2))return '<';
 	return '0';
+}
+
+int _atoi(char* str, int leng)
+{
+	assert(str != NULL);
+	int i = 0;
+	int flag = 1;
+	int temp = 0;
+	for (; i < leng; i++)
+	{
+		if (str[i] == '-')
+		{
+			flag = -1;
+		}
+		if (isdigit(str[i]))
+		{
+			str[i] -= '0';
+			temp = temp * 10 + str[i];
+		}
+	}
+	return temp * flag;
 }
 
 int calc(char* str) {
@@ -168,10 +215,33 @@ int calc(char* str) {
 	InitStack(optr);
 	InitStack2(opnd);
 	push(optr, '@');
-	int i = 0;
-	int j = 0;
+	int i = 0,j = 0,data;
+	bool flag;
+	char s, r;
+	GetTopElem(optr, s);
 	char exp1[100];
+	while (str[i] != '@' || r != '@')//检测表达式尾
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+		{
+			exp1[j] = str[i];
+			i++;
+			j++;
+			if (str[i] < '0' || str[i] > '9')
+			{
+				flag = 1;
+			}
+			if (flag == 1 && j > 0)
+			{
+				data = _atoi(exp1, j);
+				push2(opnd, data);
+				flag = 0;
+				j = 0;
+			}
+		}
+	}
 	//do something
+	GetTopElem2(opnd, result);
 	return result;
 }
 
