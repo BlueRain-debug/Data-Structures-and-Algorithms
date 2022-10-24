@@ -93,30 +93,6 @@ status pop2(LinkList2& S, ElemType2& E)	//出栈
 	return 1;
 }
 
-status StackTraverse(LinkList S){
-	if (S->next == NULL) return 0;
-	StackNode* p = S->next;
-	while (p)
-	{
-		printf("%d ", p->data);
-		p = p->next;
-	}
-	printf("\n");
-	return 1;
-}
-
-status StackTraverse2(LinkList2 S){
-	if (S->next == NULL) return 0;
-	StackNode2* p = S->next;
-	while (p)
-	{
-		printf("%d ", p->data);
-		p = p->next;
-	}
-	printf("\n");
-	return 1;
-}
-
 int setPriority(ElemType1 E)    //设置优先级
 {
 	int i;
