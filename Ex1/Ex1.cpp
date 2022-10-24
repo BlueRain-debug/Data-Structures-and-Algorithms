@@ -162,7 +162,7 @@ int setPriority(ElemType1 E)    //设置优先级
 	case ')':
 		i = 3;
 		break;
-	case '@':
+	case '=':
 		i = 4;
 		break;
 	default:
@@ -171,17 +171,19 @@ int setPriority(ElemType1 E)    //设置优先级
 	return i;
 }
 
-char comparePriority(ElemType1 E1, ElemType1 E2)    //比较优先级
+char compPriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 {
-	if ((setPriority(E1) == 4)&&(setPriority(E2) == 5))return '=';
-	if ((setPriority(E1) == 3)&&(setPriority(E2) == 2))return '0';
-	if ((setPriority(E1) == 2)&&(setPriority(E2) == 4))return '0';
-	if ((setPriority(E1) == 4)&&(setPriority(E2) == 3))return '0';
-	if (setPriority(E1) == 4)return '<';
-	if ((setPriority(E1) == setPriority(E2))&&(setPriority(E2) == 2))return '<';
-	if (setPriority(E1) == setPriority(E2))return '>';
-	if (setPriority(E1) > setPriority(E2))return '>';
-	if (setPriority(E1) < setPriority(E2))return '<';
+	int i = setPriority(E1), j = setPriority(E2);
+	if ((i == 4)&&(j == 4))return '=';
+	if ((i == 3)&&(j == 2))return '0';
+	if ((i == 2)&&(j == 4))return '0';
+	if ((i == 4)&&(j == 3))return '0';
+	if (i == 4)return '<';
+	if (j == 4)return '>';
+	if ((i == j)&&(j == 2))return '<';
+	if (i == j)return '>';
+	if (i > j)return '>';
+	if (i < j)return '<';
 	return '0';
 }
 
@@ -207,8 +209,7 @@ int _atoi(char* str, int leng){
 
 status Optr(int a, char optr, int b){
 	int result;
-	switch (optr)
-	{
+	switch (optr){
 	case '+':
 		result = a + b;
 		break;
@@ -233,14 +234,16 @@ int calc(char* str) {
 	LinkList2 opnd;
 	InitStack(optr);
 	InitStack2(opnd);
-	push(optr, '@');
+	push(optr, '=');
 	int i = 0,j = 0,data;
 	bool flag=0;
-	char s, r;
+	ElemType1 r,s;
+	ElemType2 a, b;
+	char t;
 	GetTopElem(optr, r);
 	char exp1[100];
-	while (str[i] != '@' || r != '@'){
-		if (str[i] >= '0' && str[i] <= '9'){
+	while (str[i] != '=' || r != '='){
+		if (str[i] >= '0' && str[i] <= '9'){//操作数
 			exp1[j] = str[i];
 			i++;
 			j++;
@@ -253,9 +256,30 @@ int calc(char* str) {
 				flag = 0;
 				j = 0;
 			}
+		}else {//非操作数
+			GetTopElem(optr, r);
+			t = compPriority(r, str[i]);
+			switch (t){
+			case '<':
+				push(optr, str[i]);
+				i++;
+				break;
+			case '>':
+				pop(optr, s);
+				pop2(opnd, b);
+				pop2(opnd, a);
+				push2(opnd, Optr(a, s, b));
+				break;
+			case '=':
+				pop(optr, s);
+				i++;
+				break;
+			default:
+				break;
+			}
 		}
+		GetTopElem(optr, r);
 	}
-	//do something
 	GetTopElem2(opnd, result);
 	return result;
 }
