@@ -193,6 +193,7 @@ int calc(char* str) {
 	int i = 0,j = 0,data;
 	bool flag=0;
 	bool flag_a = 0;
+	bool flag_b = 0;
 	ElemType1 r,s;
 	ElemType2 a, b;
 	char t;
@@ -209,6 +210,7 @@ int calc(char* str) {
 			if (flag == 1 && j > 0){
 				data = _atoi(exp1, j);
 				push2(opnd, data);
+				flag_b = 0;
 				flag = 0;
 				j = 0;
 			}
@@ -229,9 +231,16 @@ int calc(char* str) {
 					flag_a = 1;
 				}
 				else {
-					printf("%d %c ", b, s);
+					if(flag_b==1){
+						printf("%d %c ", a, s);
+					}
+					else {
+						printf("%d %c ", b, s);
+					}
+					
 				}
 				push2(opnd, Optr(a, s, b));
+				flag_b = 1;
 				break;
 			case '=':
 				pop(optr, s);
