@@ -162,8 +162,8 @@ int _atoi(char* str, int leng){
 	return temp * flag;
 }
 
-status Optr(int a, char optr, int b){
-	int result;
+ElemType2 Optr(ElemType2 a, ElemType1 optr, ElemType2 b){
+	ElemType2 result;
 	switch (optr){
 	case '+':
 		result = a + b;
@@ -190,12 +190,12 @@ int calc(char* str) {
 	InitStack(optr);
 	InitStack2(opnd);
 	push(optr, '=');
-	int i = 0,j = 0,data;
+	int i = 0,j = 0;
 	bool flag=0;
 	bool flag_a = 0;//首次输出
 	bool flag_b = 0;//记录上一步操作
 	ElemType1 r,s;
-	ElemType2 a, b;
+	ElemType2 a, b, data;
 	char t;
 	GetTopElem(optr, r);
 	char exp1[100];
@@ -258,7 +258,8 @@ int calc(char* str) {
 
 int main(int argc, char** argv){
 	char expression[100];
-	int result,n,p;
+	int n,p;
+	ElemType2 result;
 	if (argc < 2) {
 		printf("请输入算术表达式：");
 		gets_s(expression);
