@@ -192,8 +192,8 @@ int calc(char* str) {
 	push(optr, '=');
 	int i = 0,j = 0,data;
 	bool flag=0;
-	bool flag_a = 0;
-	bool flag_b = 0;
+	bool flag_a = 0;//首次输出
+	bool flag_b = 0;//记录上一步操作
 	ElemType1 r,s;
 	ElemType2 a, b;
 	char t;
@@ -264,14 +264,14 @@ int main(int argc, char** argv){
 		gets_s(expression);
 	}
 	for(n=0;n<100&&expression[n]!='\0'; n++){}
-	if (expression[0] == '-') {
+	if (expression[0] == '-') {//负号补零
 		for (p = n; p >= 0; p--) {
 			expression[p + 1] = expression[p];
 		}
 		expression[0] = '0';
 		n++;
 	}
-	if (expression[n - 1] != '=') {
+	if (expression[n - 1] != '=') {//末尾补充等号
 		expression[n] = '=';
 		expression[n+1] = '\0';
 	}
