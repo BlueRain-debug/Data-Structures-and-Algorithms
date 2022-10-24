@@ -115,8 +115,7 @@ status pop2(LinkList2& S, ElemType2& E)	//出栈
 	return 1;
 }
 
-status StackTraverse(LinkList S)    //链式栈遍历
-{
+status StackTraverse(LinkList S){
 	if (S->next == NULL) return 0;
 	StackNode* p = S->next;
 	while (p)
@@ -128,8 +127,7 @@ status StackTraverse(LinkList S)    //链式栈遍历
 	return 1;
 }
 
-status StackTraverse2(LinkList2 S)    //链式栈遍历
-{
+status StackTraverse2(LinkList2 S){
 	if (S->next == NULL) return 0;
 	StackNode2* p = S->next;
 	while (p)
@@ -141,7 +139,7 @@ status StackTraverse2(LinkList2 S)    //链式栈遍历
 	return 1;
 }
 
-int setPriority(ElemType1 E)    //比较优先级
+int setPriority(ElemType1 E)    //设置优先级
 {
 	int i;
 	switch (E)
@@ -187,8 +185,7 @@ char comparePriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 	return '0';
 }
 
-int _atoi(char* str, int leng)
-{
+int _atoi(char* str, int leng){
 	assert(str != NULL);
 	int i = 0;
 	int flag = 1;
@@ -208,6 +205,28 @@ int _atoi(char* str, int leng)
 	return temp * flag;
 }
 
+status Optr(int a, char optr, int b){
+	int result;
+	switch (optr)
+	{
+	case '+':
+		result = a + b;
+		break;
+	case '-':
+		result = a - b;
+		break;
+	case '*':
+		result = a * b;
+		break;
+	case '/':
+		result = a / b;
+		break;
+	default:
+		break;
+	}
+	return result;
+}
+
 int calc(char* str) {
 	int result=0;
 	LinkList optr;
@@ -216,23 +235,19 @@ int calc(char* str) {
 	InitStack2(opnd);
 	push(optr, '@');
 	int i = 0,j = 0,data;
-	bool flag;
+	bool flag=0;
 	char s, r;
-	GetTopElem(optr, s);
+	GetTopElem(optr, r);
 	char exp1[100];
-	while (str[i] != '@' || r != '@')//检测表达式尾
-	{
-		if (str[i] >= '0' && str[i] <= '9')
-		{
+	while (str[i] != '@' || r != '@'){
+		if (str[i] >= '0' && str[i] <= '9'){
 			exp1[j] = str[i];
 			i++;
 			j++;
-			if (str[i] < '0' || str[i] > '9')
-			{
+			if (str[i] < '0' || str[i] > '9'){
 				flag = 1;
 			}
-			if (flag == 1 && j > 0)
-			{
+			if (flag == 1 && j > 0){
 				data = _atoi(exp1, j);
 				push2(opnd, data);
 				flag = 0;
