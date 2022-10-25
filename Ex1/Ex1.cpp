@@ -142,24 +142,16 @@ char compPriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 	return '0';
 }
 
-double _atoi(char* str, int leng) {
+double _atod(char* str, int leng) {
+	int i=0;
+	char str1[100];
 	assert(str != NULL);
-	int i = 0;
-	double flag = 1;
-	double temp = 0;
 	for (; i < leng; i++)
 	{
-		if (str[i] == '-')
-		{
-			flag = -1;
-		}
-		if (isdigit(str[i]))
-		{
-			str[i] -= '0';
-			temp = temp * 10 + str[i];
-		}
+		str1[i]=str[i];
 	}
-	return temp * flag;
+	double data = strtod(str1, NULL);
+	return data;
 }
 
 ElemType2 Optr(ElemType2 a, char optr, ElemType2 b) {
@@ -205,10 +197,17 @@ double calc(char* str) {
 			i++;
 			j++;
 			if (str[i] < '0' || str[i] > '9') {
-				flag = 1;
+				if (str[i] != '.') {
+					flag = 1;
+				}
+				else {
+					exp1[j] = str[i];
+					i++;
+					j++;
+				}
 			}
 			if (flag == 1 && j > 0) {
-				data = _atoi(exp1, j);
+				data = _atod(exp1, j);
 				push2(opnd, data);
 				flag_b = 0;
 				flag = 0;
