@@ -145,7 +145,8 @@ char compPriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 	return '0';
 }
 
-double _atod(char* str, int leng) {
+double _atod(char* str, int leng) //传入字符及长度，转换为double返回
+{
 	int i=0;
 	char str1[100];
 	assert(str != NULL);
@@ -221,6 +222,10 @@ double calc(char* str) {
 			}
 		}
 		else {//非操作数
+			if (str[i] != '+' && str[i] != '-' && str[i] != '*' && str[i] != '/' && str[i] != '=' && str[i] != '^' && str[i] != '(' && str[i] != ')') {
+				printf("输入表达式有误，程序即将退出！");
+				exit(0);
+			}
 			GetTopElem(optr, r);
 			t = compPriority(r, str[i]);
 			switch (t) {
