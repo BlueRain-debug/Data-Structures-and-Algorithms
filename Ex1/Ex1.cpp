@@ -268,7 +268,7 @@ int main(int argc, char** argv) {
 	double result;
 	while(1){
 		if (argc < 2) {
-		printf("请输入算术表达式（输入exit退出）：");
+		printf("\n请输入算术表达式（输入exit退出）：");
 		gets_s(expression);
 	}
 		if (strcmp(expression,"exit\0")==0) break;
