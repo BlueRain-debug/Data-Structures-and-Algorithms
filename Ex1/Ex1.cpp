@@ -110,14 +110,17 @@ int setPriority(ElemType1 E)    //设置优先级
 	case '/':
 		i = 1;
 		break;
-	case '(':
+	case '^':
 		i = 2;
 		break;
-	case ')':
+	case '(':
 		i = 3;
 		break;
-	case '=':
+	case ')':
 		i = 4;
+		break;
+	case '=':
+		i = 5;
 		break;
 	default:
 		i = -1;
@@ -129,13 +132,13 @@ int setPriority(ElemType1 E)    //设置优先级
 char compPriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 {
 	int i = setPriority(E1), j = setPriority(E2);
-	if ((i == 4) && (j == 4))return '=';
-	if ((i == 3) && (j == 2))return '0';
-	if ((i == 2) && (j == 4))return '0';
+	if ((i == 5) && (j == 5))return '=';
 	if ((i == 4) && (j == 3))return '0';
-	if (i == 4)return '<';
-	if (j == 4)return '>';
-	if ((i == j) && (j == 2))return '<';
+	if ((i == 3) && (j == 5))return '0';
+	if ((i == 5) && (j == 4))return '0';
+	if (i == 5)return '<';
+	if (j == 5)return '>';
+	if ((i == j) && (j == 3))return '<';
 	if (i == j)return '>';
 	if (i > j)return '>';
 	if (i < j)return '<';
@@ -168,6 +171,9 @@ ElemType2 Optr(ElemType2 a, char optr, ElemType2 b) {
 		break;
 	case '/':
 		result = a / b;
+		break;
+	case '^':
+		result = (ElemType2)pow(a,b);
 		break;
 	default:
 		break;
@@ -260,10 +266,12 @@ int main(int argc, char** argv) {
 	char expression[100];
 	int n, p;
 	double result;
-	if (argc < 2) {
-		printf("请输入算术表达式：");
+	while(1){
+		if (argc < 2) {
+		printf("请输入算术表达式（输入exit退出）：");
 		gets_s(expression);
 	}
+		if (strcmp(expression,"exit\0")==0) break;
 	for (n = 0; n < 100 && expression[n] != '\0'; n++) {}
 	if (expression[0] == '-') {//负号补零
 		for (p = n; p >= 0; p--) {
@@ -279,6 +287,7 @@ int main(int argc, char** argv) {
 	printf("\n后缀表达式为：");
 	result = calc(expression);
 	printf("\n所求结果为：%lf", result);
+	}
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
