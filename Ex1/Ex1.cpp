@@ -267,6 +267,11 @@ double calc(char* str) {
 	return result;
 }
 
+void CLIOptions() {
+	printf("本程序命令格式：\n-f <filepath>                   设置读入文件路径\n-e <expression>                 直接传入表达式");
+	exit(0);
+}
+
 int main(int argc, char** argv) {
 	char expression[100];
 	int n, p;
@@ -275,23 +280,42 @@ int main(int argc, char** argv) {
 		if (argc < 2) {
 		printf("\n请输入算术表达式（输入exit退出）：");
 		gets_s(expression);
-	}
-		if (strcmp(expression,"exit\0")==0) break;
-	for (n = 0; n < 100 && expression[n] != '\0'; n++) {}
-	if (expression[0] == '-') {//负号补零
-		for (p = n; p >= 0; p--) {
-			expression[p + 1] = expression[p];
+		}else {
+			if (strcmp(argv[1], "-f") == 0 && argc == 3) {
+				FILE* fp;
+				fp = fopen(argv[2], "r");
+				if (fp == NULL){
+					printf("文件读取失败");
+					exit(0);
+				} else {
+					fgets(expression, 100, fp);
+					printf("传入表达式为：%s", expression);
+				}
+				fclose(fp);
+			} else if (strcmp(argv[1], "-e") == 0 && argc == 3) {
+				strcpy_s(expression, argv[2]);
+				printf("传入表达式为：%s", expression);
+			} else {
+				CLIOptions();
+			}
+			argc = 1;
 		}
-		expression[0] = '0';
-		n++;
-	}
-	if (expression[n - 1] != '=') {//末尾补充等号
-		expression[n] = '=';
-		expression[n + 1] = '\0';
-	}
-	printf("\n后缀表达式为：");
-	result = calc(expression);
-	printf("\n所求结果为：%lf", result);
+		if (strcmp(expression,"exit\0")==0) break;
+	    for (n = 0; n < 100 && expression[n] != '\0'; n++) {}
+	    if (expression[0] == '-') {//负号补零
+			for (p = n; p >= 0; p--) {
+				expression[p + 1] = expression[p];
+			}
+			expression[0] = '0';
+			n++;
+		}
+		if (expression[n - 1] != '=') {//末尾补充等号
+			expression[n] = '=';
+			expression[n + 1] = '\0';
+		}
+		printf("\n后缀表达式为：");
+		result = calc(expression);
+		printf("\n所求结果为：%lf", result);
 	}
 }
 
