@@ -6,6 +6,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<time.h>
+#include<windows.h>
 #include<assert.h>
 #include<locale>
 #include<iostream>
@@ -274,35 +275,42 @@ void CLIOptions() {
 
 int main(int argc, char** argv) {
 	char expression[100];
-	int n, p;
+	int n, p, flag=0;
 	double result;
-	while(1){
+	while (1) {
+		if (flag == 1) {
+			argc = 1;
+		}
 		if (argc < 2) {
-		printf("\n请输入算术表达式（输入exit退出）：");
-		gets_s(expression);
-		}else {
+			printf("\n请输入算术表达式（输入exit退出）：");
+			gets_s(expression);
+		}
+		else {
 			if (strcmp(argv[1], "-f") == 0 && argc >= 3) {
 				FILE* fp;
 				fp = fopen(argv[2], "r");
-				if (fp == NULL){
+				if (fp == NULL) {
 					printf("文件读取失败");
 					exit(0);
-				} else {
+				}
+				else {
 					fgets(expression, 100, fp);
 					printf("传入表达式为：%s", expression);
 				}
 				fclose(fp);
-			} else if (strcmp(argv[1], "-e") == 0 && argc >= 3) {
+			}
+			else if (strcmp(argv[1], "-e") == 0 && argc >= 3) {
 				strcpy_s(expression, argv[2]);
 				printf("传入表达式为：%s", expression);
-			} else {
+			}
+			else {
 				CLIOptions();
 			}
-			argc = 1;
+			flag = 1;
 		}
-		if (strcmp(expression,"exit\0")==0) break;
-	    for (n = 0; n < 100 && expression[n] != '\0'; n++) {}
-	    if (expression[0] == '-') {//负号补零
+		if (strcmp(expression, "exit\0") == 0) break;
+		for (n = 0; n < 100 && expression[n] != '\0'; n++) {}
+		if (expression[0] == '-') {//负号补零
 			for (p = n; p >= 0; p--) {
 				expression[p + 1] = expression[p];
 			}
@@ -316,8 +324,11 @@ int main(int argc, char** argv) {
 		printf("\n后缀表达式为：");
 		result = calc(expression);
 		printf("\n所求结果为：%lf", result);
-		if (strcmp(argv[3], "-m") == 0) {
-			break;
+		if (argc >= 3) {
+			if (strcmp(argv[3], "-m") == 0) {
+				Sleep(1000);
+				break;
+			}
 		}
 	}
 }
