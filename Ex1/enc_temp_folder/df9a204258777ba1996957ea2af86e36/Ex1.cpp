@@ -324,7 +324,7 @@ int main(int argc, char** argv) {
 		printf("\n后缀表达式为：");
 		result = calc(expression);
 		printf("\n所求结果为：%lf", result);
-		if (arg >= 4) {
+		if (argc >= 3) {
 			if (strcmp(argv[3], "-m") == 0) {
 				Sleep(1000);
 				break;

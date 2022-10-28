@@ -247,7 +247,6 @@ CString CEx1MFCApplication1Dlg::ExecuteCmd(CString str)
 void CEx1MFCApplication1Dlg::OnBnClickedButton1()
 {
 	USES_CONVERSION;
-	//char* pFileName = T2A(mFilePath);
 	CString Mode = (CString)"-f ";
 	Mode = exec + Mode + mFilePath + mf;
 	char* pFile = T2A(Mode);
@@ -259,7 +258,6 @@ void CEx1MFCApplication1Dlg::OnBnClickedButton1()
 void CEx1MFCApplication1Dlg::OnBnClickedButton2()
 {
 	USES_CONVERSION;
-	//char* pFileName = T2A(mFilePath);
 	CString Mode = (CString)"-e ";
 	Mode = exec + Mode + Exp + mf;
 	char* pFile = T2A(Mode);
