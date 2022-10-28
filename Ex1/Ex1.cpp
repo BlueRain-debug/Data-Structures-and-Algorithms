@@ -281,7 +281,7 @@ int main(int argc, char** argv) {
 		printf("\n请输入算术表达式（输入exit退出）：");
 		gets_s(expression);
 		}else {
-			if (strcmp(argv[1], "-f") == 0 && argc == 3) {
+			if (strcmp(argv[1], "-f") == 0 && argc >= 3) {
 				FILE* fp;
 				fp = fopen(argv[2], "r");
 				if (fp == NULL){
@@ -292,7 +292,7 @@ int main(int argc, char** argv) {
 					printf("传入表达式为：%s", expression);
 				}
 				fclose(fp);
-			} else if (strcmp(argv[1], "-e") == 0 && argc == 3) {
+			} else if (strcmp(argv[1], "-e") == 0 && argc >= 3) {
 				strcpy_s(expression, argv[2]);
 				printf("传入表达式为：%s", expression);
 			} else {
@@ -316,6 +316,9 @@ int main(int argc, char** argv) {
 		printf("\n后缀表达式为：");
 		result = calc(expression);
 		printf("\n所求结果为：%lf", result);
+		if (strcmp(argv[3], "-m") == 0) {
+			break;
+		}
 	}
 }
 
