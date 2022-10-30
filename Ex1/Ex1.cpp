@@ -27,15 +27,15 @@ typedef struct StackNode2 {
 }StackNode2, * LinkList2;
 
 status InitStack(LinkList& S) {
-	S = (StackNode*)malloc(sizeof(StackNode));
-	if (S == NULL) exit(0);
+	S = (StackNode*)malloc(sizeof(StackNode));	//分配
+	if (S == NULL) exit(0);	//分配出错
 	S->next = NULL;
 	return 1;
 }
 
 status InitStack2(LinkList2& S) {
-	S = (StackNode2*)malloc(sizeof(StackNode2));
-	if (S == NULL) exit(0);
+	S = (StackNode2*)malloc(sizeof(StackNode2));	//分配
+	if (S == NULL) exit(0);	//分配出错
 	S->next = NULL;
 	return 1;
 }
@@ -135,8 +135,13 @@ char compPriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 	int i = setPriority(E1), j = setPriority(E2);
 	if ((i == 5) && (j == 5))return '=';
 	if ((i == 4) && (j == 3))return '0';
+	if ((i == 3) && (j == 4))return '=';
 	if ((i == 3) && (j == 5))return '0';
 	if ((i == 5) && (j == 4))return '0';
+	if (i == 3)return '<';
+	if (j == 3)return '<';
+	if (i == 4)return '>';
+	if (j == 4)return '>';
 	if (i == 5)return '<';
 	if (j == 5)return '>';
 	if ((i == j) && (j == 3))return '<';
@@ -153,15 +158,15 @@ double _atod(char* str, int leng) //传入字符及长度，转换为double返�
 	assert(str != NULL);
 	for (; i < leng; i++)
 	{
-		str1[i]=str[i];
+		str1[i]=str[i];//转录
 	}
-	double data = strtod(str1, NULL);
+	double data = strtod(str1, NULL);//字符串str1类型转换double
 	return data;
 }
 
 ElemType2 Optr(ElemType2 a, char optr, ElemType2 b) {
 	ElemType2 result;
-	switch (optr) {
+	switch (optr) {//进行指定操作
 	case '+':
 		result = a + b;
 		break;
@@ -173,7 +178,7 @@ ElemType2 Optr(ElemType2 a, char optr, ElemType2 b) {
 		break;
 	case '/':
 		result = a / b;
-		break;
+		break; 
 	case '^':
 		result = (ElemType2)pow(a,b);
 		break;
@@ -194,18 +199,23 @@ double calc(char* str) {
 	bool flag = 0;
 	bool flag_a = 0;//首次输出
 	bool flag_b = 0;//记录上一步操作
+	int flag_c = 1;//实现#操作
 	ElemType1 r, s;
 	ElemType2 a, b, data;
 	char t;
 	GetTopElem(optr, r);
 	char exp1[100];
 	while (str[i] != '=' || r != '=') {
-		if (str[i] >= '0' && str[i] <= '9') {//操作数
+		if ((str[i] >= '0' && str[i] <= '9')||str[i]=='#') {//操作数
+			if (str[i] == '#') {
+				i++;
+				flag_c = -1;
+			}
 			exp1[j] = str[i];
 			i++;
 			j++;
-			if (str[i] < '0' || str[i] > '9') {
-				if (str[i] != '.') {
+			if (str[i] < '0' || str[i] > '9') {//非数值
+				if (str[i] != '.') {//非小数点则说明结束
 					flag = 1;
 				}
 				else {
@@ -216,6 +226,8 @@ double calc(char* str) {
 			}
 			if (flag == 1 && j > 0) {
 				data = _atod(exp1, j);
+				data *= flag_c;
+				flag_c = 1;
 				push2(opnd, data);
 				flag_b = 0;
 				flag = 0;
@@ -241,12 +253,10 @@ double calc(char* str) {
 				if (flag_a == 0) {
 					printf("%lf %lf %c ", a, b, s);
 					flag_a = 1;
-				}
-				else {
+				}else {
 					if (flag_b == 1) {
 						printf("%lf %c ", a, s);
-					}
-					else {
+					}else {
 						printf("%lf %c ", b, s);
 					}
 
@@ -269,7 +279,7 @@ double calc(char* str) {
 }
 
 void CLIOptions() {
-	printf("本程序命令格式：\n-f <filepath>                   设置读入文件路径\n-e <expression>                 直接传入表达式");
+	printf("本程序命令格式：\n-f <filepath>                   设置读入文件路径\n-e <expression>                 直接传入表达式");//
 	exit(0);
 }
 
@@ -286,29 +296,29 @@ int main(int argc, char** argv) {
 			gets_s(expression);
 		}
 		else {
-			if (strcmp(argv[1], "-f") == 0 && argc >= 3) {
+			if (strcmp(argv[1], "-f") == 0 && argc >= 3) {//-f文件读入
 				FILE* fp;
-				fp = fopen(argv[2], "r");
+				fp = fopen(argv[2], "r");//参数二文件
 				if (fp == NULL) {
 					printf("文件读取失败");
 					exit(0);
 				}
 				else {
-					fgets(expression, 100, fp);
+					fgets(expression, 100, fp);//读入表达式
 					printf("传入表达式为：%s", expression);
 				}
 				fclose(fp);
 			}
-			else if (strcmp(argv[1], "-e") == 0 && argc >= 3) {
+			else if (strcmp(argv[1], "-e") == 0 && argc >= 3) {//-e直接传入表达式
 				strcpy_s(expression, argv[2]);
 				printf("传入表达式为：%s", expression);
 			}
 			else {
-				CLIOptions();
+				CLIOptions();//参数错误，输出命令行使用说明
 			}
 			flag = 1;
 		}
-		if (strcmp(expression, "exit\0") == 0) break;
+		if (strcmp(expression, "exit\0") == 0) break;//exit退出
 		for (n = 0; n < 100 && expression[n] != '\0'; n++) {}
 		if (expression[0] == '-') {//负号补零
 			for (p = n; p >= 0; p--) {
@@ -318,14 +328,21 @@ int main(int argc, char** argv) {
 			n++;
 		}
 		if (expression[n - 1] != '=') {//末尾补充等号
-			expression[n] = '=';
-			expression[n + 1] = '\0';
+			if ((expression[n - 1] >= '0' && expression[n - 1] <= '9' )|| expression[n - 1]==')') {//末尾为数字，补等号结尾
+				expression[n] = '=';//补充末尾等号
+				expression[n + 1] = '\0';//表达式结束符
+			}else {//末尾为算符，表达式非法
+				printf("\n表达式非法！\n");
+				printf("\n表达式非法！\n");
+				printf("\n表达式非法！\n");
+				continue;//下一次循环
+			}
 		}
-		printf("\n后缀表达式为：");
+		printf("\n后缀表达式为：");//表达式在calc()中输出
 		result = calc(expression);
 		printf("\n所求结果为：%lf", result);
 		if (argc >= 4) {
-			if (strcmp(argv[3], "-m") == 0) {
+			if (strcmp(argv[3], "-m") == 0) {//从MFC外壳调用模式，输出结果后停留退出
 				Sleep(1000);
 				break;
 			}
