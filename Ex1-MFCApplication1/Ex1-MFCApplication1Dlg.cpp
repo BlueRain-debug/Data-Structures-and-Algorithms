@@ -25,7 +25,7 @@ CString current_working_directory()
 
 CString mFilePath;
 CString Exp;
-CString exec= current_working_directory() + (CString)"\\x64\\Debug\\Ex1.exe ";
+CString exec= current_working_directory() + (CString)"\\Ex1.exe ";//缝合Ex1.exe路径为当前路径
 CString mf = (CString)" -m ";
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
@@ -247,8 +247,8 @@ CString CEx1MFCApplication1Dlg::ExecuteCmd(CString str)
 void CEx1MFCApplication1Dlg::OnBnClickedButton1()
 {
 	USES_CONVERSION;
-	CString Mode = (CString)"-f ";
-	Mode = exec + Mode + mFilePath + mf;
+	CString Mode = (CString)"-f ";//文件模式
+	Mode = exec + Mode + mFilePath + mf;//缝合执行指令
 	char* pFile = T2A(Mode);
 	system(pFile);
 	//CString Msg = ExecuteCmd(File);
@@ -258,11 +258,10 @@ void CEx1MFCApplication1Dlg::OnBnClickedButton1()
 void CEx1MFCApplication1Dlg::OnBnClickedButton2()
 {
 	USES_CONVERSION;
-	CString Mode = (CString)"-e ";
-	Mode = exec + Mode + Exp + mf;
+	CString Mode = (CString)"-e ";//表达式模式
+	Mode = exec + Mode + Exp + mf;//缝合执行指令
 	char* pFile = T2A(Mode);
 	system(pFile);
-	// TODO: 在此添加控件通知处理程序代码
 }
 
 
