@@ -132,7 +132,7 @@ int setPriority(ElemType1 E)    //设置优先级
 
 char compPriority(ElemType1 E1, ElemType1 E2)    //比较优先级
 {
-	int i = setPriority(E1), j = setPriority(E2);
+	int i = setPriority(E1), j = setPriority(E2);//获取优先级数值
 	if ((i == 5) && (j == 5))return '=';
 	if ((i == 4) && (j == 3))return '0';
 	if ((i == 3) && (j == 4))return '=';
@@ -235,10 +235,12 @@ double calc(char* str) {
 			}
 		}
 		else {//非操作数
-			if (str[i] != '+' && str[i] != '-' && str[i] != '*' && str[i] != '/' && str[i] != '=' && str[i] != '^' && str[i] != '(' && str[i] != ')') {
+			if ((str[i] != '+' && str[i] != '-' && str[i] != '*' && str[i] != '/' && str[i] != '=' && str[i] != '^' && str[i] != '(' && str[i] != ')')||(str[i]=='('&&(str[i-1] >= '0' && str[i-1] <= '9'))) {
 				printf("输入表达式有误，程序即将退出！");
+				Sleep(1000);
 				exit(0);
 			}
+			
 			GetTopElem(optr, r);
 			t = compPriority(r, str[i]);
 			switch (t) {
@@ -247,10 +249,10 @@ double calc(char* str) {
 				i++;
 				break;
 			case '>':
-				pop(optr, s);
-				pop2(opnd, b);
+				pop(optr, s);//操作符出栈
+				pop2(opnd, b);//2操作数出栈
 				pop2(opnd, a);
-				if (flag_a == 0) {
+				if (flag_a == 0) {//首次输出时两操作数均为原始数据，输出
 					printf("%lf %lf %c ", a, b, s);
 					flag_a = 1;
 				}else {
@@ -261,7 +263,7 @@ double calc(char* str) {
 					}
 
 				}
-				push2(opnd, Optr(a, s, b));
+				push2(opnd, Optr(a, s, b));//存入运算结果
 				flag_b = 1;
 				break;
 			case '=':
@@ -279,8 +281,8 @@ double calc(char* str) {
 }
 
 void CLIOptions() {
-	printf("本程序命令格式：\n-f <filepath>                   设置读入文件路径\n-e <expression>                 直接传入表达式");//
-	exit(0);
+	printf("本程序命令格式：\n-f <filepath>                   设置读入文件路径\n-e <expression>                 直接传入表达式");//程序命令格式说明
+	exit(0);//触发本提示应为命令行or终端直接调用，故退出即可，无需等待
 }
 
 int main(int argc, char** argv) {
