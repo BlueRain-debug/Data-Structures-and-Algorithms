@@ -1,11 +1,57 @@
 ﻿// Ex2.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
 
-#include <iostream>
+#pragma warning(disable:4996)
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+void CLIOptions() {
+	printf("本程序命令格式：\n-e <inputfilepath> <outputfilepath>     设置编码文件路径\n-d <inputfilepath> <outputfilepath>     设置解码文件路径");//程序命令格式说明
+	exit(0);//触发本提示应为命令行or终端直接调用，故退出即可，无需等待
+}
+
+int main(int argc, char** argv) {
+	char content[1000];
+	int flag_m = 0;
+	if (argc >= 3) {
+		if (strcmp(argv[1], "-e") == 0 && argc >= 3) {//-e文件编码
+			FILE* fp;
+			fp = fopen(argv[2], "r");//传入输入文件名
+			if (fp == NULL) {
+				printf("文件读取失败");
+				exit(0);
+			}
+			else {
+				fgets(content, 1000, fp);//读入
+				printf("传入内容为：%s", content);
+			}
+			fclose(fp);
+			flag_m = 1;
+		}
+		else if (strcmp(argv[1], "-o") == 0 && argc >= 3) {//-d文件解码
+			FILE* fp;
+			fp = fopen(argv[2], "r");//传入输入文件名
+			if (fp == NULL) {
+				printf("文件读取失败");
+				exit(0);
+			}
+			else {
+				fgets(content, 1000, fp);//读入
+				printf("传入内容为：%s", content);
+			}
+			fclose(fp);
+			flag_m = 2;
+		}
+		else {
+			CLIOptions();//参数错误，输出命令行使用说明
+		}
+	}
+	else {
+		CLIOptions();//参数错误，输出命令行使用说明
+	}
+	return 0;
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
