@@ -177,6 +177,12 @@ ElemType2 Optr(ElemType2 a, char optr, ElemType2 b) {
 		result = a * b;
 		break;
 	case '/':
+		if (b == 0) {
+			printf("\n表达式非法！\n");
+			printf("\n表达式非法！\n");
+			printf("\n表达式非法！\n");
+			exit(0);
+		}
 		result = a / b;
 		break; 
 	case '^':
