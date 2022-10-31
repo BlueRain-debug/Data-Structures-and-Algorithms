@@ -206,6 +206,8 @@ double calc(char* str) {
 	bool flag_a = 0;//首次输出
 	bool flag_b = 0;//记录上一步操作
 	int flag_c = 1;//实现#操作
+	int flag_d1 = 0;
+	int flag_d2 = 0;
 	ElemType1 r, s;
 	ElemType2 a, b, data;
 	char t;
@@ -242,7 +244,7 @@ double calc(char* str) {
 		}
 		else {//非操作数
 			if ((str[i] != '+' && str[i] != '-' && str[i] != '*' && str[i] != '/' && str[i] != '=' && str[i] != '^' && str[i] != '(' && str[i] != ')')||(str[i]=='('&&(str[i-1] >= '0' && str[i-1] <= '9'))|| ((str[i-1] < '0' || str[i-1] > '9')&&str[i]!='('&& str[i] != ')' && str[i] != '=')) {
-				printf("输入表达式有误，程序即将退出！");
+				printf("\n输入表达式有误，程序即将退出！\n");
 				Sleep(1000);
 				exit(0);
 			}
@@ -267,7 +269,6 @@ double calc(char* str) {
 					}else {
 						printf("%lf %c ", b, s);
 					}
-
 				}
 				push2(opnd, Optr(a, s, b));//存入运算结果
 				flag_b = 1;
@@ -277,7 +278,9 @@ double calc(char* str) {
 				i++;
 				break;
 			default:
-				break;
+				printf("\n输入表达式有误，程序即将退出！\n");
+				Sleep(1000);
+				exit(0);
 			}
 		}
 		GetTopElem(optr, r);
