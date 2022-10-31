@@ -235,7 +235,7 @@ double calc(char* str) {
 			}
 		}
 		else {//非操作数
-			if ((str[i] != '+' && str[i] != '-' && str[i] != '*' && str[i] != '/' && str[i] != '=' && str[i] != '^' && str[i] != '(' && str[i] != ')')||(str[i]=='('&&(str[i-1] >= '0' && str[i-1] <= '9'))) {
+			if ((str[i] != '+' && str[i] != '-' && str[i] != '*' && str[i] != '/' && str[i] != '=' && str[i] != '^' && str[i] != '(' && str[i] != ')')||(str[i]=='('&&(str[i-1] >= '0' && str[i-1] <= '9'))|| ((str[i-1] < '0' || str[i-1] > '9')&&str[i]!='('&& str[i] != ')' && str[i] != '=')) {
 				printf("输入表达式有误，程序即将退出！");
 				Sleep(1000);
 				exit(0);
