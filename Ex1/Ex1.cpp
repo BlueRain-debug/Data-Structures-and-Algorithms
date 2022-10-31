@@ -345,7 +345,7 @@ int main(int argc, char** argv) {
 		printf("\n所求结果为：%lf", result);
 		if (argc >= 4) {
 			if (strcmp(argv[3], "-m") == 0) {//从MFC外壳调用模式，输出结果后停留退出
-				Sleep(1000);
+				getchar();
 				break;
 			}
 		}
